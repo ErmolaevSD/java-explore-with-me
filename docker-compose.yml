@@ -1,14 +1,56 @@
 services:
   stats-server:
+    build: ./stats/stats-server
     ports:
       - "9090:9090"
+    depends_on:
+      stats-db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statsDb
+      - SPRING_DATASOURCE_USERNAME=stats
+      - SPRING_DATASOURCE_PASSWORD=123
+    restart: unless-stopped
 
   stats-db:
     image: postgres:16.1
+    ports:
+      - "6432:5432"
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=stats
+      - POSTGRES_DB=statsDb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stats -d statsDb"]
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
 
   ewm-service:
+    build: ./main-service
     ports:
       - "8080:8080"
+    depends_on:
+      ewm-db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/serviceDb
+      - SPRING_DATASOURCE_USERNAME=service
+      - SPRING_DATASOURCE_PASSWORD=123
+    restart: unless-stopped
 
   ewm-db:
     image: postgres:16.1
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=service
+      - POSTGRES_DB=serviceDb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U service -d serviceDb"]
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
