@@ -21,7 +21,7 @@ services:
       - POSTGRES_USER=stats
       - POSTGRES_DB=statsDb
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U stats -d statsDb"]
+      test: [ "CMD-SHELL", "pg_isready -U stats -d statsDb" ]
       timeout: 5s
       interval: 5s
       retries: 10
@@ -49,7 +49,7 @@ services:
       - POSTGRES_USER=service
       - POSTGRES_DB=serviceDb
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U service -d serviceDb"]
+      test: [ "CMD-SHELL", "pg_isready -U service -d serviceDb" ]
       timeout: 5s
       interval: 5s
       retries: 10
