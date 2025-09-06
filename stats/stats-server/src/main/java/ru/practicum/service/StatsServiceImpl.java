@@ -2,8 +2,11 @@ package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.EndpointHit;
 import ru.practicum.ViewStats;
 import ru.practicum.mapper.HitMapper;
@@ -34,7 +37,7 @@ public class StatsServiceImpl implements StatsService {
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
 
         if (end.isBefore(start)) {
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
         log.info("Getting stats: start={}, end={}, uris={}, unique={}", start, end, uris, unique);
