@@ -10,7 +10,6 @@ import ru.practicum.mapper.HitMapper;
 import ru.practicum.model.Hit;
 import ru.practicum.repository.StatsRepository;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,7 +48,6 @@ public class StatsServiceImpl implements StatsService {
                 rows = hitRepository.getStats(start, end, uris);
             }
         }
-
         return rows;
     }
 }
