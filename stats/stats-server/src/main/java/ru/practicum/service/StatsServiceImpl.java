@@ -36,7 +36,7 @@ public class StatsServiceImpl implements StatsService {
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
 
         if (end.isBefore(start)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         log.info("Getting stats: start={}, end={}, uris={}, unique={}", start, end, uris, unique);
