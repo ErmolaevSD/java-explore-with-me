@@ -62,13 +62,13 @@ public class EventPublicServiceImpl implements EventPublicService {
         if (event.getState() != EventState.PUBLISHED) {
             throw new NotFoundException("getById: Событие id = %d не опубликовано".formatted(eventId));
         }
-        hit(httpServletRequest);
         List<ViewStatDto> stats = statClient.getStats(event.getPublishedOn(), LocalDateTime.now(), List.of("/events/" + eventId), true);
 
         log.info("Метод getById, длина списка stats: {}", stats.size());
         Long views = stats.isEmpty() ? 0L : stats.getFirst().getGetHits();
         event.setViews(views);
         log.info("Метод getById, количество сохраняемых просмотров: {}", views);
+        hit(httpServletRequest);
         return eventMapper.toEventFullDto(event);
     }
 
