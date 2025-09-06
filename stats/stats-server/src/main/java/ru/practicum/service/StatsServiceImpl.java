@@ -32,6 +32,11 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
+
+        if (end.isBefore(start)) {
+            throw new RuntimeException();
+        }
+
         log.info("Getting stats: start={}, end={}, uris={}, unique={}", start, end, uris, unique);
         List<ViewStats> rows;
 
