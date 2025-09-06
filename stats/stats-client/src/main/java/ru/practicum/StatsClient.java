@@ -23,7 +23,10 @@ public class StatsClient {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final RestClient restClient;
 
-    public StatsClient(@Value("${stat-svc-service.url:http://localhost:9090}") String statServiceUrl) {
+    @Value("${stat-svc-service.url}")
+    private  String statServiceUrl;
+
+    public StatsClient(@Value("${stat-svc-service.url}") String statServiceUrl) {
         restClient = RestClient.builder()
                 .baseUrl(statServiceUrl)
                 .build();

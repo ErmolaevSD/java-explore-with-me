@@ -1,17 +1,5 @@
+version: '3.8'
 services:
-  stats-server:
-    build: ./stats/stats-server
-    ports:
-      - "9090:9090"
-    depends_on:
-      stats-db:
-        condition: service_healthy
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statsDb
-      - SPRING_DATASOURCE_USERNAME=stats
-      - SPRING_DATASOURCE_PASSWORD=123
-    restart: unless-stopped
-
   stats-db:
     image: postgres:16.1
     ports:
@@ -27,17 +15,18 @@ services:
       retries: 10
     restart: unless-stopped
 
-  ewm-service:
-    build: ./main-service
+  stats-server:
+    build: ./stats/stats-server
     ports:
-      - "8080:8080"
+      - "9090:9090"
     depends_on:
-      ewm-db:
+      stats-db:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/serviceDb
-      - SPRING_DATASOURCE_USERNAME=service
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statsDb
+      - SPRING_DATASOURCE_USERNAME=stats
       - SPRING_DATASOURCE_PASSWORD=123
+      - STATS_SERVER_URL=http://stats-server:9090
     restart: unless-stopped
 
   ewm-db:
@@ -53,4 +42,20 @@ services:
       timeout: 5s
       interval: 5s
       retries: 10
+    restart: unless-stopped
+
+  ewm-service:
+    build: ./main-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      ewm-db:
+        condition: service_healthy
+      stats-server:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/serviceDb
+      - SPRING_DATASOURCE_USERNAME=service
+      - SPRING_DATASOURCE_PASSWORD=123
+      - STATS_SERVER_URL=http://stats-server:9090
     restart: unless-stopped
