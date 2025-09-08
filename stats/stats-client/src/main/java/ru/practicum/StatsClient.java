@@ -12,7 +12,6 @@ import org.springframework.web.util.UriBuilder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -24,7 +23,7 @@ public class StatsClient {
     private final RestClient restClient;
 
     @Value("${stat-svc-service.url}")
-    private  String statServiceUrl;
+    private String statServiceUrl;
 
     public StatsClient(@Value("${stat-svc-service.url}") String statServiceUrl) {
         restClient = RestClient.builder()
