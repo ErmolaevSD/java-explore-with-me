@@ -26,9 +26,9 @@ public class User {
     @Column(name = "email", nullable = false, unique = true, length = 254)
     private String email;
 
-    @OneToMany(mappedBy = "initiator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "initiator", cascade = CascadeType.ALL)
     private List<Event> events = new ArrayList<>();
 
-    @OneToMany(mappedBy = "requester", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "requester", cascade = CascadeType.ALL)
     private List<ParticipationRequest> requests = new ArrayList<>();
 }

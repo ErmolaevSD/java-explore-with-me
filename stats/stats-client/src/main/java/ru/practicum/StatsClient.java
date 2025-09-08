@@ -79,12 +79,12 @@ public class StatsClient {
 
             } else {
                 log.error("Ошибка при получении статистики: {}", response.getStatusCode());
-                return Collections.emptyList(); // Или выбросить исключение, в зависимости от требований
+                throw new RuntimeException();
             }
 
         } catch (Exception e) {
             log.error("Ошибка при запросе статистики: {}", e.getMessage());
-            return Collections.emptyList(); // Или выбросить исключение, в зависимости от требований
+            throw new RuntimeException();
         }
     }
 }

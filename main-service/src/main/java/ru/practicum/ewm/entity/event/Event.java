@@ -74,7 +74,7 @@ public class Event {
     @Column(name = "views")
     private Long views = 0L;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<ParticipationRequest> requests = new ArrayList<>();
 
     @ManyToMany(mappedBy = "events")

@@ -24,6 +24,6 @@ public class Location {
     @Column(nullable = false)
     private Float lon;
 
-    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "location")
     private List<Event> events = new ArrayList<>();
 }
