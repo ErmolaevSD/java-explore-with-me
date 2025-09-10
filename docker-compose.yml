@@ -1,4 +1,20 @@
+version: '3.8'
 services:
+  stats-db:
+    image: postgres:16.1
+    ports:
+      - "6432:5432"
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=stats
+      - POSTGRES_DB=statsDb
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U stats -d statsDb" ]
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+
   stats-server:
     build: ./stats/stats-server
     ports:
@@ -10,18 +26,24 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statsDb
       - SPRING_DATASOURCE_USERNAME=stats
       - SPRING_DATASOURCE_PASSWORD=123
+      - STATS_SERVER_URL=http://stats-server:9090
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9090/actuator/health" ]
+      timeout: 5s
+      interval: 5s
+      retries: 10
     restart: unless-stopped
 
-  stats-db:
+  ewm-db:
     image: postgres:16.1
     ports:
-      - "6432:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=123
-      - POSTGRES_USER=stats
-      - POSTGRES_DB=statsDb
+      - POSTGRES_USER=service
+      - POSTGRES_DB=serviceDb
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U stats -d statsDb"]
+      test: [ "CMD-SHELL", "pg_isready -U service -d serviceDb" ]
       timeout: 5s
       interval: 5s
       retries: 10
@@ -34,23 +56,11 @@ services:
     depends_on:
       ewm-db:
         condition: service_healthy
+      stats-server:
+        condition: service_healthy
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/serviceDb
       - SPRING_DATASOURCE_USERNAME=service
       - SPRING_DATASOURCE_PASSWORD=123
-    restart: unless-stopped
-
-  ewm-db:
-    image: postgres:16.1
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=123
-      - POSTGRES_USER=service
-      - POSTGRES_DB=serviceDb
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U service -d serviceDb"]
-      timeout: 5s
-      interval: 5s
-      retries: 10
+      - STATS_SERVER_URL=http://stats-server:9090
     restart: unless-stopped
