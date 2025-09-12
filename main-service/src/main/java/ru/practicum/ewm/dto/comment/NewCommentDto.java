@@ -3,7 +3,10 @@ package ru.practicum.ewm.dto.comment;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -12,6 +15,6 @@ import lombok.*;
 public class NewCommentDto {
 
     @NotNull
-    @Size(min = 1, max =  1000)
+    @Size(min = 1, max = 1000)
     private String text;
 }

@@ -1,11 +1,9 @@
 package ru.practicum.ewm.service.comment;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import ru.practicum.ewm.dto.comment.CommentDto;
 import ru.practicum.ewm.dto.comment.NewCommentDto;
 import ru.practicum.ewm.dto.comment.UpdateCommentDto;
 
-import java.awt.image.Kernel;
 import java.util.List;
 
 

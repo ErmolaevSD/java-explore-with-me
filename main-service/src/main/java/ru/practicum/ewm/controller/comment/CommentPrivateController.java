@@ -62,7 +62,7 @@ public class CommentPrivateController {
                                               @RequestParam(defaultValue = "0") Integer from,
                                               @RequestParam(defaultValue = "10") Integer size) {
         log.info("Получен запрос на получение всех комментариев к событию с {}", eventId);
-        return commentService.getAllCommentByEvent(eventId,from,size);
+        return commentService.getAllCommentByEvent(eventId, from, size);
     }
 
     @GetMapping
@@ -70,6 +70,6 @@ public class CommentPrivateController {
                                                @RequestParam(defaultValue = "0") Integer from,
                                                @RequestParam(defaultValue = "10") Integer size) {
         log.info("Получен запрос на получение всех комментариев пользователя с if {}", userId);
-        return commentService.getAllCommentByAuthor(userId, from,size);
+        return commentService.getAllCommentByAuthor(userId, from, size);
     }
 }
