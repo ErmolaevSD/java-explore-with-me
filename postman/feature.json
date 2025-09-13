@@ -3,7 +3,7 @@
 		"_postman_id": "414bfb25-95c7-4058-bd3e-b1aa9734b956",
 		"name": "Test Explore With Me - Comments",
 		"description": "Тесты для функционала : добавление комментария",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "42988511"
 	},
 	"item": [
@@ -100,7 +100,11 @@
 									"    }\r",
 									"};\r",
 									"\r",
-									"await main();"
+									"(async () => {\r",
+									"    await main();\r",
+									"})().catch(error => {\r",
+									"    console.error(\"Необработанная ошибка:\", error);\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -472,7 +476,18 @@
 								}
 							}
 						},
-						"url": "{{baseUrl}}/users/100000/comments/{{eventId}}"
+						"url": {
+							"raw": "{{baseUrl}}/users/100000/comments/{{eventId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"100000",
+								"comments",
+								"{{eventId}}"
+							]
+						}
 					},
 					"response": []
 				},
@@ -545,7 +560,18 @@
 								}
 							}
 						},
-						"url": "{{baseUrl}}/users/{{userId}}/comments/999999"
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}/comments/999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}",
+								"comments",
+								"999999"
+							]
+						}
 					},
 					"response": []
 				},
@@ -631,7 +657,18 @@
 								}
 							}
 						},
-						"url": "{{baseUrl}}/users/{{userId}}/comments/{{eventId}}"
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}/comments/{{eventId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}",
+								"comments",
+								"{{eventId}}"
+							]
+						}
 					},
 					"response": []
 				},
