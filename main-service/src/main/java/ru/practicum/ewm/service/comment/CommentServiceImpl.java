@@ -14,6 +14,7 @@ import ru.practicum.ewm.entity.event.Event;
 import ru.practicum.ewm.entity.event.EventState;
 import ru.practicum.ewm.entity.user.User;
 import ru.practicum.ewm.exception.ConflictException;
+import ru.practicum.ewm.exception.NotFoundException;
 import ru.practicum.ewm.mapper.CommentMapper;
 import ru.practicum.ewm.repository.comment.CommentRepository;
 import ru.practicum.ewm.service.event.EventPublicService;
@@ -69,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
         }
 
         commentRepository.deleteById(commentId);
-        log.info("Комментарий {} успешно удален", comment.get());
+        log.info("Комментарий {} успешно удален", comment.get().getText());
     }
 
 
@@ -95,7 +96,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto getCommentById(Long commentId) {
-        return commentMapper.toCommentDto(commentRepository.getById(commentId));
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        if (comment.isEmpty()) {
+            throw new NotFoundException("Комментария с указанным id {} не существует", commentId);
+        }
+        return commentMapper.toCommentDto(comment.get());
     }
 
     @Override

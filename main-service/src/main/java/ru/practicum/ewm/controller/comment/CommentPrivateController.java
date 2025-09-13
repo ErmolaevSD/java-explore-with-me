@@ -50,7 +50,7 @@ public class CommentPrivateController {
         return commentService.updateComment(updateCommentDto, userId, eventId, commentId);
     }
 
-    @GetMapping("/{commentId}")
+    @GetMapping("/comment/{commentId}")
     public CommentDto getCommentById(@PathVariable Long userId,
                                      @PathVariable Long commentId) {
         log.info("Получен запрос на поиск комментария с id {}", commentId);
